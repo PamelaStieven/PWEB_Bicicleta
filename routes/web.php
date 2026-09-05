@@ -32,9 +32,10 @@ Route::post('/register', function () {
 })->name('register.post');
 
 // Rotas de Busca
-Route::post('usuario/search', [UsuarioController::class, 'search'])->name('usuario.search');
-Route::post('bicicleta/search', [BicicletaController::class, 'search'])->name('bicicleta.search');
-Route::post('acessorios/search', [AcessoriosController::class, 'search'])->name('acessorios.search');
+Route::post('usuario/search', [UsuarioController::class, 'index'])->name('usuario.search');
+Route::post('bicicleta/search', [BicicletaController::class, 'index'])->name('bicicleta.search');
+Route::post('acessorios/search', [AcessoriosController::class, 'index'])->name('acessorios.search');
+Route::post('venda/search', [VendaController::class, 'index'])->name('venda.search');
 
 // Rotas CRUD
 Route::resource('usuario', UsuarioController::class)->names('usuario');

@@ -10,24 +10,24 @@ use App\Models\Acessorios;
 
 class VendaController extends Controller
 {
-    public function index(Request $request)
+   public function index(Request $request)
     {
         $query = Venda::with(['usuario', 'funcionario', 'bicicleta', 'acessorio']);
 
-        $tipo = $request->input('tipo');
+        $tipo  = $request->input('tipo');
         $valor = $request->input('valor');
 
         if ($tipo && $valor) {
             switch ($tipo) {
                 case 'usuario':
                     $query->whereHas('usuario', function ($q) use ($valor) {
-                        $q->where('nome', 'like', "%{$valor}%");
+                        $q->where('nome', 'like', "%{$valor}%"); // Removido o orWhere('name')
                     });
                     break;
 
                 case 'funcionario':
                     $query->whereHas('funcionario', function ($q) use ($valor) {
-                        $q->where('nome', 'like', "%{$valor}%");
+                        $q->where('nome', 'like', "%{$valor}%"); // Removido o orWhere('name')
                     });
                     break;
 
@@ -35,7 +35,7 @@ class VendaController extends Controller
                     $query->where(function ($q) use ($valor) {
                         $q->whereHas('bicicleta', function ($b) use ($valor) {
                             $b->where('modelo', 'like', "%{$valor}%")
-                              ->orWhere('marca', 'like', "%{$valor}%");
+                            ->orWhere('marca', 'like', "%{$valor}%");
                         })->orWhereHas('acessorio', function ($a) use ($valor) {
                             $a->where('nome', 'like', "%{$valor}%");
                         });
@@ -59,8 +59,8 @@ class VendaController extends Controller
 
     public function create()
     {
-        $usuarios     = Usuario::where('tipo', 'usuario')->get();
-        $funcionarios = Usuario::where('tipo', 'funcionario')->get();
+        $usuarios     = Usuario::all();
+        $funcionarios = Usuario::all();
         $bicicletas   = Bicicleta::all();
         $acessorios   = Acessorios::all();
 
@@ -89,9 +89,10 @@ class VendaController extends Controller
 
     public function edit($id)
     {
-        $venda        = Venda::findOrFail($id);
-        $usuarios     = Usuario::where('tipo', 'usuario')->get();
-        $funcionarios = Usuario::where('tipo', 'funcionario')->get();
+        // Renomeado para $venda para bater com a view form.blade.php
+        $venda        = Venda::findOrFail($id); 
+        $usuarios     = Usuario::all();
+        $funcionarios = Usuario::all();
         $bicicletas   = Bicicleta::all();
         $acessorios   = Acessorios::all();
 

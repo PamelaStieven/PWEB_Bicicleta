@@ -44,7 +44,7 @@
                 <th>Qtd</th>
                 <th>Valor Total</th>
                 <th>Data</th>
-                <th>Ações</th>
+                <th class="text-center">Ações</th>
             </tr>
         </thead>
         <tbody>
@@ -65,8 +65,14 @@
                     <td>{{ $item->quantidade }}</td>
                     <td>R$ {{ number_format($item->valor_total, 2, ',', '.') }}</td>
                     <td>{{ \Carbon\Carbon::parse($item->data_venda)->format('d/m/Y') }}</td>
-                    <td>
-                        <a href="{{ route('venda.edit', $item->id) }}" class="btn btn-sm btn-warning">Editar</a>
+                    <td class="text-center">
+                        <a 
+                            href="{{ route('venda.edit', $item->id) }}" 
+                            class="btn btn-warning btn-sm" 
+                            title="Editar"
+                        >
+                            Editar
+                        </a>
                         <form action="{{ route('venda.destroy', $item->id) }}" method="POST" class="d-inline">
                             @csrf
                             @method('DELETE')
